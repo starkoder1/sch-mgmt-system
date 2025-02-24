@@ -13,7 +13,7 @@ class _UserLoginState extends State<UserType> {
 
   
   void _navigateToLoginForm(String userType) {
-    Navigator.of(context).pushReplacement(MaterialPageRoute(
+    Navigator.of(context).push(MaterialPageRoute(
       builder: (context) => UserLoginForm(
         userType: userType,
       ),

@@ -22,6 +22,15 @@ class _UserLoginFormState extends State<UserLoginForm> {
   String userPass = '';
   late String currentUserType = widget.userType;
 
+  bool isPasswordVisible = false;
+
+  //toggle password visibilty
+  void _togglePassVisibility() {
+    setState(() {
+      isPasswordVisible = !isPasswordVisible;
+    });
+  }
+
   //Handle validation and authentication
   void onLoginPress() async {
     if (_formKey.currentState!.validate()) {
@@ -37,8 +46,8 @@ class _UserLoginFormState extends State<UserLoginForm> {
         Navigator.of(context).pushReplacement(MaterialPageRoute(
           builder: (context) => const WelcomeScreen(),
         ));
-        ScaffoldMessenger.of(context)
-            .showSnackBar(const SnackBar(content: Text("Signed in successfulyy!")));
+        ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text("Signed in successfulyy!")));
       }
     }
   }
@@ -82,7 +91,7 @@ class _UserLoginFormState extends State<UserLoginForm> {
                 ),
                 suffixIcon: Icon(
                   Icons.person,
-                  color: Theme.of(context).iconTheme.color,
+                  color: Theme.of(context).colorScheme.primary,
                 ),
               ),
               validator: (value) {
@@ -107,10 +116,20 @@ class _UserLoginFormState extends State<UserLoginForm> {
                       fontSize:
                           Theme.of(context).textTheme.bodyLarge!.fontSize),
                 ),
-                suffixIcon: Icon(Icons.visibility_off,
-                    color: Theme.of(context).iconTheme.color),
+                suffixIcon: IconButton(
+                  onPressed: _togglePassVisibility,
+                  icon: isPasswordVisible
+                      ? Icon(
+                          Icons.visibility_off,
+                          color: Theme.of(context).colorScheme.primary,
+                        )
+                      : Icon(
+                          Icons.visibility,
+                          color: Colors.grey,
+                        ),
+                ),
               ),
-              obscureText: true,
+              obscureText: isPasswordVisible,
               validator: (value) {
                 if (value == null || value.isEmpty) {
                   return 'Password cannot be empty';
