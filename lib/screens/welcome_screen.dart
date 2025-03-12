@@ -17,7 +17,8 @@ class WelcomeScreen extends StatefulWidget {
 class _WelcomeScreenState extends State<WelcomeScreen> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(backgroundColor: Colors.white,
+    return Scaffold(
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: SingleChildScrollView(
@@ -28,8 +29,9 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
               const SizedBox(
                 height: 70,
               ),
-              const CircleAvatar(
+              CircleAvatar(
                 radius: profilePictureRadius,
+                backgroundImage: AssetImage('assets/logos/start_logo.jpg'),
               ),
               const SizedBox(
                 height: 30,
