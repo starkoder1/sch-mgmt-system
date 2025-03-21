@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:school_mgmt/screens/add_account_details.dart';
 import 'package:school_mgmt/screens/attendance_screen.dart';
 import 'package:school_mgmt/screens/homework_screen.dart';
+import 'package:school_mgmt/screens/result_screen.dart';
 import 'package:school_mgmt/utils/utils.dart';
 import 'package:school_mgmt/widgets/test.dart';
 import 'package:school_mgmt/widgets/welcome_icons.dart';
@@ -57,23 +58,22 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                     WelcomeIcons(
                       iconPath: 'assets/icons/att.png',
                       label: 'Attendance',
-                      destinationScreen: ColorSchemeScreen(),
+                      destinationScreen: AttendanceScreen(),
                     ),
                     WelcomeIcons(
                       iconPath: 'assets/icons/homework.png',
                       label: 'Homework',
                       destinationScreen: HomeworkScreen(),
                     ),
-
                     WelcomeIcons(
                       iconPath: 'assets/icons/result.png',
                       label: 'Result',
-                      destinationScreen: AttendanceScreen(),
+                      destinationScreen: ResultScreen(),
                     ),
                     WelcomeIcons(
                       iconPath: 'assets/icons/exam_routine.png',
                       label: 'Exam Routine',
-                      destinationScreen: HomeworkScreen(),
+                      destinationScreen: ColorSchemeScreen(),
                     ),
                     WelcomeIcons(
                       iconPath: 'assets/icons/solutions.png',

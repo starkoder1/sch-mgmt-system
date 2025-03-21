@@ -1,15 +1,69 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:intl/intl.dart';
+import 'package:school_mgmt/models/attendance_record.dart';
+import 'package:school_mgmt/providers/attendance_list_provider.dart';
+import 'package:school_mgmt/services/attendance_service.dart';
+import 'package:school_mgmt/utils/utils.dart';
 // import 'package:school_mgmt/utils/utils.dart';
 import 'package:school_mgmt/widgets/attendance_widget.dart';
+import 'package:school_mgmt/widgets/elevated_btn.dart';
 
-class AttendanceScreen extends StatefulWidget {
+class AttendanceScreen extends ConsumerStatefulWidget {
   const AttendanceScreen({super.key});
 
   @override
-  State<AttendanceScreen> createState() => _AttendanceScreenState();
+  ConsumerState<AttendanceScreen> createState() => _AttendanceScreenState();
 }
 
-class _AttendanceScreenState extends State<AttendanceScreen> {
+class _AttendanceScreenState extends ConsumerState<AttendanceScreen> {
+  String _selectedDate = DateFormat('d-M-yyyy').format(DateTime.now());
+  final _attendanceService = AttendanceService();
+  bool _isLoading = false;
+
+  void getStudent() async {
+    final response = await _attendanceService.getAttendanceRecords(
+        selectedDate: null); //null because it will fetch the curent day first
+
+    ref.read(attendanceProvider.notifier).updateList(response);
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    getStudent();
+  }
+
+  void _datePicker() async {
+    DateTime? pickedDate = await showDatePicker(
+      context: context,
+      firstDate: DateTime(2025, 2, 1),
+      lastDate: DateTime.now(),
+      barrierDismissible: false,
+      helpText: 'Select Attendance Date',
+      initialDate: DateTime.now(),
+    );
+
+    if (pickedDate != null) {
+      setState(() {
+        _selectedDate = DateFormat('d-M-yyyy').format(pickedDate);
+        pickedPreviousDate = _selectedDate;
+      });
+    } else {
+      return;
+    }
+    setState(() {
+      _isLoading = true;
+    });
+    final previousAttendanceRecords = await _attendanceService
+        .getAttendanceRecords(selectedDate: _selectedDate);
+    ref.read(attendanceProvider.notifier).updateList(
+        previousAttendanceRecords); //update the list provider after fethcing data
+    setState(() {
+      _isLoading = false;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -60,18 +114,29 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
                         color: Theme.of(context).colorScheme.onPrimaryFixed),
                   ),
                   Spacer(),
-                  Text(
-                    "Date :",
-                    style: TextStyle(
-                        fontSize: 22,
-                        fontWeight: FontWeight.bold,
-                        color: Theme.of(context).colorScheme.onPrimaryFixed),
-                  ),
-                  Text(
-                    "${DateTime.now().day}-${DateTime.now().month}-${DateTime.now().year}",
-                    style: TextStyle(
-                        fontSize: 22,
-                        color: Theme.of(context).colorScheme.onPrimaryFixed),
+                  TextButton.icon(
+                    style: TextButton.styleFrom(padding: EdgeInsets.all(0)),
+                    label: Row(
+                      children: [
+                        Text(
+                            style: TextStyle(
+                                fontSize: 22,
+                                color: Theme.of(context)
+                                    .colorScheme
+                                    .onPrimaryFixed),
+                            _selectedDate),
+                        Icon(
+                          Icons.arrow_drop_down_sharp,
+                          size: 35,
+                        )
+                      ],
+                    ),
+                    onPressed: _datePicker,
+                    icon: Icon(
+                      size: 28,
+                      Icons.date_range_rounded,
+                      color: Theme.of(context).colorScheme.onPrimaryFixed,
+                    ),
                   ),
                 ],
               ),
@@ -82,9 +147,16 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
           ),
           Container(
             color: Theme.of(context).colorScheme.primaryContainer,
-            padding: EdgeInsets.fromLTRB(30, 0, 30, 0),
+            padding: EdgeInsets.fromLTRB(25, 0, 25, 0),
             height: 40,
             child: Row(children: [
+              Expanded(
+                // flex: 1,
+                child: Text(
+                  " Roll",
+                  style: Theme.of(context).textTheme.titleMedium,
+                ),
+              ),
               Expanded(
                 flex: 3,
                 child: Text(
@@ -96,7 +168,7 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
                 flex: 1,
                 child: Text(
                   "Present",
-                  style: TextStyle(fontSize: 18),
+                  style: Theme.of(context).textTheme.titleMedium,
                 ),
               ),
               SizedBox(width: 10),
@@ -104,13 +176,17 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
                 flex: 1,
                 child: Text(
                   "Absent",
-                  style: TextStyle(fontSize: 18),
+                  style: Theme.of(context).textTheme.titleMedium,
                 ),
               ),
             ]),
           ),
-          Expanded(
-            child: AttendanceWidget(),
+          Flexible(
+            child: _isLoading
+                ? Center(
+                    child: CircularProgressIndicator(),
+                  )
+                : AttendanceWidget(),
           ),
         ],
       ),
