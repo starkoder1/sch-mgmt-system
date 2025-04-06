@@ -12,7 +12,8 @@ class HomeworkScreen extends StatefulWidget {
 class _HomeworkScreenState extends State<HomeworkScreen> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(resizeToAvoidBottomInset: false,
+    return Scaffold(
+      resizeToAvoidBottomInset: false,
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.primary,
         title: Row(
@@ -37,7 +38,8 @@ class _HomeworkScreenState extends State<HomeworkScreen> {
       ),
       body: Padding(
         padding: const EdgeInsets.all(16),
-        child: Column(mainAxisSize: MainAxisSize.min,
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
           children: [
             Text(
               "Subject",
@@ -48,7 +50,6 @@ class _HomeworkScreenState extends State<HomeworkScreen> {
             const SizedBox(
               height: 20,
             ),
-            
             const SizedBox(
               height: 50,
             ),
@@ -56,7 +57,9 @@ class _HomeworkScreenState extends State<HomeworkScreen> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 const Text("Add Homework"),
-                TextField(minLines: 10,maxLines: null,
+                TextField(
+                  minLines: 10,
+                  maxLines: null,
                   cursorColor: Theme.of(context).primaryColor,
                   decoration: InputDecoration(
                     filled: true,
@@ -78,7 +81,12 @@ class _HomeworkScreenState extends State<HomeworkScreen> {
             const SizedBox(
               height: 20,
             ),
-            ElevatedBtn(content: "Submit", onPressed: () {}),
+            ElevatedBtn(
+              content: "Submit",
+              onPressed: () {},
+              hPadding: 120,
+              vPadding: 15,
+            ),
           ],
         ),
       ),

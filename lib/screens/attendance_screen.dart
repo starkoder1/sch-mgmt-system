@@ -75,7 +75,7 @@ class _AttendanceScreenState extends ConsumerState<AttendanceScreen> {
             Image.asset(
               'assets/icons/att.png',
               color: Colors.white,
-              height: 40,
+              height: appBarIconHeight,
             ),
             const SizedBox(
               width: 10,
@@ -101,11 +101,12 @@ class _AttendanceScreenState extends ConsumerState<AttendanceScreen> {
               child: Row(
                 children: [
                   Text(
-                    "Class : ",
+                    "Class: ",
                     style: TextStyle(
-                        color: Theme.of(context).colorScheme.onPrimaryFixed,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 22),
+                      color: Theme.of(context).colorScheme.onPrimaryFixed,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 22,
+                    ),
                   ),
                   Text(
                     "10 A",
@@ -119,12 +120,12 @@ class _AttendanceScreenState extends ConsumerState<AttendanceScreen> {
                     label: Row(
                       children: [
                         Text(
-                            style: TextStyle(
-                                fontSize: 22,
-                                color: Theme.of(context)
-                                    .colorScheme
-                                    .onPrimaryFixed),
-                            _selectedDate),
+                          style: TextStyle(
+                              fontSize: 22,
+                              color:
+                                  Theme.of(context).colorScheme.onPrimaryFixed),
+                          _selectedDate,
+                        ),
                         Icon(
                           Icons.arrow_drop_down_sharp,
                           size: 35,
@@ -158,7 +159,7 @@ class _AttendanceScreenState extends ConsumerState<AttendanceScreen> {
                 ),
               ),
               Expanded(
-                flex: 3,
+                flex: 2,
                 child: Text(
                   "Student Name",
                   style: Theme.of(context).textTheme.titleMedium,

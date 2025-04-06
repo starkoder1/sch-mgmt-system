@@ -52,13 +52,13 @@ class _UserLoginState extends State<UserType> {
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 LoginButtonWidget(
-                  buttonText: 'Student',
+                  buttonText: 'STUDENT',
                   onPressed: () {
                     _navigateToLoginForm('student');
                   },
                 ),
                 LoginButtonWidget(
-                  buttonText: 'Teacher',
+                  buttonText: 'TEACHER',
                   onPressed: () {
                     _navigateToLoginForm('teacher');
                   },
@@ -73,9 +73,9 @@ class _UserLoginState extends State<UserType> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 LoginButtonWidget(
-                  buttonText: 'Guest',
+                  buttonText: 'PARENT',
                   onPressed: () {
-                    _navigateToLoginForm('guest');
+                    _navigateToLoginForm('parent');
                   },
                 ),
               ],

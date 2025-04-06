@@ -1,20 +1,22 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:recase/recase.dart';
+import 'package:school_mgmt/providers/user_type_provider.dart';
 import 'package:school_mgmt/screens/welcome_screen.dart';
 import 'package:school_mgmt/services/auth.dart';
 import 'package:school_mgmt/utils/utils.dart';
 import 'package:school_mgmt/widgets/elevated_btn.dart';
 
-class UserLoginForm extends StatefulWidget {
+class UserLoginForm extends ConsumerStatefulWidget {
   const UserLoginForm({super.key, required this.userType});
   final String userType;
 
   @override
-  State<UserLoginForm> createState() => _UserLoginFormState();
+  ConsumerState<UserLoginForm> createState() => _UserLoginFormState();
 }
 
-class _UserLoginFormState extends State<UserLoginForm> {
+class _UserLoginFormState extends ConsumerState<UserLoginForm> {
   final _formKey = GlobalKey<FormState>();
   final _authService = AuthService();
   late final User? userData;
@@ -22,7 +24,7 @@ class _UserLoginFormState extends State<UserLoginForm> {
   String userPass = '';
   late String currentUserType = widget.userType;
 
-  bool isPasswordVisible = false;
+  bool isPasswordVisible = true;
 
   //toggle password visibilty
   void _togglePassVisibility() {
@@ -39,15 +41,25 @@ class _UserLoginFormState extends State<UserLoginForm> {
       userData = await _authService.userSignIn(userEmail, userPass);
       if (userData == null) {
         {
-          ScaffoldMessenger.of(context)
-              .showSnackBar(SnackBar(content: Text(_authService.errrMsg!)));
+          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+            content: Text(_authService.errrMsg!),
+            behavior: SnackBarBehavior.floating,
+          ));
         }
       } else {
-        Navigator.of(context).pushReplacement(MaterialPageRoute(
-          builder: (context) => const WelcomeScreen(),
-        ));
+        //saving offline usertype for UI
+        await ref.read(userTypeProvider.notifier).setUserType(currentUserType);
+        Navigator.of(context).pushReplacement(
+          MaterialPageRoute(
+            builder: (context) => const WelcomeScreen(),
+          ),
+        );
         ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text("Signed in successfulyy!")));
+          const SnackBar(
+            behavior: SnackBarBehavior.floating,
+            content: Text("Signed in successfulyy!"),
+          ),
+        );
       }
     }
   }
@@ -125,7 +137,7 @@ class _UserLoginFormState extends State<UserLoginForm> {
                         )
                       : Icon(
                           Icons.visibility,
-                          color: Colors.grey,
+                          color: Theme.of(context).colorScheme.primary,
                         ),
                 ),
               ),

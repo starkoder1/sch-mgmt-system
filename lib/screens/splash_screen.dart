@@ -1,42 +1,40 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:school_mgmt/providers/user_type_provider.dart';
 import 'package:school_mgmt/screens/user_type.dart';
 import 'package:school_mgmt/screens/welcome_screen.dart';
-// import 'package:school_mgmt/services/auth.dart';
 
-class SpalshScreen extends StatefulWidget {
-  const SpalshScreen({super.key});
+class SplashScreen extends ConsumerStatefulWidget {
+  const SplashScreen({super.key});
 
   @override
-  State<SpalshScreen> createState() => _SpalshScreenState();
+  ConsumerState<SplashScreen> createState() => _SplashScreenState();
 }
 
-class _SpalshScreenState extends State<SpalshScreen> {
-  void _checkAuthentication() {
+class _SplashScreenState extends ConsumerState<SplashScreen> {
+  void _checkAuthentication() async {
     final User? currentUser = FirebaseAuth.instance.currentUser;
-    final currentContext = Navigator.of(context);
-    if (currentUser == null) {
-      Future.delayed(
-        const Duration(seconds: 4),
-        () {
-          currentContext.pushReplacement(
-            MaterialPageRoute(
-              builder: (context) => const UserType(),
-            ),
-          );
-        },
-      );
-    } else {
-      Future.delayed(
-        const Duration(seconds: 4),
-        () {
-          currentContext.pushReplacement(
-            MaterialPageRoute(
-              builder: (context) => const WelcomeScreen(),
-            ),
-          );
-        },
-      );
+    // Trigger provider to fetch and store user role globally
+    ref.read(userTypeProvider.notifier).loadUser();
+
+    await Future.delayed(
+      const Duration(seconds: 4),
+    ); // Splash delay
+
+    if (mounted) {
+      // Ensure widget is still in the tree
+      if (currentUser == null) {
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => const UserType()),
+        );
+      } else {
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => const WelcomeScreen()),
+        );
+      }
     }
   }
 
@@ -55,7 +53,6 @@ class _SpalshScreenState extends State<SpalshScreen> {
           child: CircleAvatar(
             radius: 110,
             backgroundImage: AssetImage("assets/logos/start_logo.jpg"),
-            // child: Text("Greenfield Scholars"),
           ),
         ),
       ),

@@ -88,7 +88,7 @@ class _AddAccountDetailsScreenState extends State<AddAccountDetailsScreen> {
                         keyboardType: TextInputType.emailAddress,
                         decoration: InputDecoration(
                           errorMaxLines: 2,
-                          labelText: "Email",
+                          labelText: "Personal Email",
                           floatingLabelStyle: const TextStyle(fontSize: 20),
                           enabledBorder: OutlineInputBorder(
                             borderRadius:
@@ -182,6 +182,8 @@ class _AddAccountDetailsScreenState extends State<AddAccountDetailsScreen> {
                       ElevatedBtn(
                         content: "Submit",
                         onPressed: _onSubmitPressed,
+                        hPadding: 120,
+                        vPadding: 15,
                       ),
                     ],
                   ),
