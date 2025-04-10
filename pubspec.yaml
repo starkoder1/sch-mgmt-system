@@ -38,7 +38,19 @@ dependencies:
   image_picker: ^1.1.2
   animations: ^2.0.11
   firebase_auth: ^5.5.0
-  firebase_core: ^3.12.0
+  firebase_core: ^3.13.0
+  supabase_flutter: ^2.8.3
+  flutter_dotenv: ^5.2.1
+  intl: ^0.20.2
+  flutter_riverpod: ^2.6.1
+  shared_preferences: ^2.5.3
+  table_calendar: ^3.2.0
+  file_picker: ^10.0.0
+  cloud_firestore: ^5.6.6
+  firebase_storage: ^12.4.5
+  shimmer: ^3.0.0
+  url_launcher: ^6.3.1
+  google_fonts: ^6.2.1
 
 dev_dependencies:
   flutter_test:
@@ -66,6 +78,7 @@ flutter:
   assets:
     - assets/logos/
     - assets/icons/
+    - .env
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images

@@ -14,6 +14,8 @@ class WelcomeIcons extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return OpenContainer(
+      openColor: Colors.transparent,
+      closedColor: Colors.transparent,
       closedElevation: 0,
       closedBuilder: (context, action) {
         return InkWell(

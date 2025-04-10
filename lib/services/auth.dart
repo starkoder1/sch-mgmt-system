@@ -1,7 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 
 class AuthService {
-  AuthService();
+  // AuthService();
   final _firebaseAuth = FirebaseAuth.instance;
   late String? errrMsg;
 

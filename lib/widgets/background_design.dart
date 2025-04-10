@@ -3,10 +3,16 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:school_mgmt/utils/image_picker.dart';
-import 'package:school_mgmt/utils/utils.dart';
 
 class BackgroundDesign extends StatefulWidget {
-  const BackgroundDesign({super.key});
+  final bool allowImageSelection;
+  final String? profileImageUrl;
+
+  const BackgroundDesign({
+    super.key,
+    this.allowImageSelection = false,
+    this.profileImageUrl,
+  });
 
   @override
   State<BackgroundDesign> createState() => _BackgroundDesignState();
@@ -85,25 +91,34 @@ class _BackgroundDesignState extends State<BackgroundDesign> {
 
   @override
   Widget build(BuildContext context) {
-    Widget content = const FittedBox(
-      fit: BoxFit.cover,
-      child: Icon(
+    Widget content;
+
+    if (pickedImage != null) {
+      content = ClipOval(
+        child: Image.file(
+          pickedImage!,
+          fit: BoxFit.cover,
+          width: double.infinity,
+          height: double.infinity,
+        ),
+      );
+    } else if (widget.profileImageUrl != null) {
+      content = ClipOval(
+        child: Image.network(
+          widget.profileImageUrl!,
+          fit: BoxFit.cover,
+          width: double.infinity,
+          height: double.infinity,
+          errorBuilder: (_, __, ___) =>
+              const Icon(Icons.person, size: 100, color: Colors.black),
+        ),
+      );
+    } else {
+      content = const Icon(
         Icons.person_add,
         color: Colors.black,
         size: 100,
-      ),
-    );
-    if (pickedImage != null) {
-      setState(() {
-        content = ClipOval(
-          child: Image.file(
-            pickedImage!,
-            fit: BoxFit.cover,
-            width: double.infinity,
-            height: double.infinity,
-          ),
-        );
-      });
+      );
     }
 
     return Stack(
@@ -112,8 +127,8 @@ class _BackgroundDesignState extends State<BackgroundDesign> {
       children: [
         // Outer white container
         Container(
-          color: Colors.white,
-          height: 350, // Total height of the background design
+          // color: Colors.white,
+          height: 325, // Total height of the background design
           child: Column(
             children: [
               // Curved teal container
@@ -131,19 +146,8 @@ class _BackgroundDesignState extends State<BackgroundDesign> {
               // Additional white background below the teal curve
               Expanded(
                 child: Container(
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.black
-                            .withValues(alpha: 0.08), // Shadow color
-                        offset: const Offset(0,
-                            15), // Vertical offset to show shadow at the bottom
-                        blurRadius: 35, // Blur effect
-                      ),
-                    ],
-                  ),
-                ),
+                    // color: Colors.white,
+                    ),
               ),
             ],
           ),
@@ -151,35 +155,37 @@ class _BackgroundDesignState extends State<BackgroundDesign> {
         // Center avatar positioned to overlap the teal curve
         Positioned(
           top: 90, // Position the avatar to overlap the curved container
-          left:
-              MediaQuery.of(context).size.width / 2 - 90, // Center horizontally
+          left: MediaQuery.of(context).size.width / 2 - 90,
           child: Container(
-            width: 180, // CircleAvatar size (adjust as needed)
+            width: 180,
             height: 180,
             decoration: BoxDecoration(
               color: Colors.white,
               shape: BoxShape.circle,
               border: Border.all(
-                color: Colors.teal, // Border color to make it stand out
-                width: 4.0, // Border thickness
+                color: Colors.teal,
+                width: 4.0,
               ),
             ),
             child: InkWell(
-              onTap: () {
-                _chooseImageSource(context);
-              },
+              onTap: widget.allowImageSelection
+                  ? () {
+                      _chooseImageSource(context);
+                    }
+                  : null,
               child: CircleAvatar(
-                  radius: profilePictureRadius, // Profile picture size
-                  backgroundColor: Colors.white,
-                  child: content),
+                radius: 90,
+                backgroundColor: Colors.white,
+                child: content,
+              ),
             ),
           ),
         ),
-        const SizedBox(
-          height: 40,
-        ),
+        const SizedBox(height: 40),
         Text(
-          "Add Profile Picture",
+          widget.allowImageSelection
+              ? "Add Profile Picture"
+              : "Profile Picture",
           style: Theme.of(context).textTheme.headlineSmall,
         )
       ],
