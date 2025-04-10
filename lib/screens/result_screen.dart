@@ -17,24 +17,20 @@ class _ResultScreenState extends ConsumerState<ResultScreen> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).primaryColor,
-        title: Row(
-          children: [
-            Image.asset(
-              "assets/icons/result.png",
-              color: Theme.of(context).colorScheme.onPrimary,
-              height: 40,
-            ),
-            SizedBox(
-              width: 10,
-            ),
-            Text(
-              "RESULTS",
-              style: TextStyle(
-                color: Theme.of(context).colorScheme.onPrimary,
-              ),
-            ),
-          ],
-        ),
+        title: Row(children: [
+          Image.asset(
+            "assets/icons/result.png",
+            color: Theme.of(context).colorScheme.onPrimary,
+            height: 40,
+          ),
+          SizedBox(
+            width: 10,
+          ),
+          Text("R E S U L T S",
+              style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                  color: Theme.of(context).colorScheme.onPrimary,
+                  fontWeight: FontWeight.w600)),
+        ]),
       ),
       body: Padding(
         padding: const EdgeInsets.all(8.0),

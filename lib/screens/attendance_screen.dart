@@ -82,7 +82,7 @@ class _AttendanceScreenState extends ConsumerState<AttendanceScreen> {
             ),
             Text(
               "ATTENDANCE",
-              style: TextStyle(color: Theme.of(context).colorScheme.onPrimary),
+              style: Theme.of(context).appBarTheme.titleTextStyle,
             ),
             const SizedBox(
               height: 15,

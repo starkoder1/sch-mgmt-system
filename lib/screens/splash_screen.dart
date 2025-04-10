@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:school_mgmt/providers/user_type_provider.dart';
 import 'package:school_mgmt/screens/user_type.dart';
-import 'package:school_mgmt/screens/welcome_screen.dart';
+import 'package:school_mgmt/screens/home_screen.dart';
 
 class SplashScreen extends ConsumerStatefulWidget {
   const SplashScreen({super.key});
@@ -32,7 +32,7 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
       } else {
         Navigator.pushReplacement(
           context,
-          MaterialPageRoute(builder: (context) => const WelcomeScreen()),
+          MaterialPageRoute(builder: (context) => const HomeScreen()),
         );
       }
     }

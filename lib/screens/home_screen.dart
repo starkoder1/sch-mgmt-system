@@ -12,6 +12,7 @@ import 'package:school_mgmt/screens/result_screen.dart';
 import 'package:school_mgmt/screens/solution_screen.dart';
 import 'package:school_mgmt/screens/splash_screen.dart';
 import 'package:school_mgmt/screens/student_attendance_screen.dart';
+import 'package:school_mgmt/screens/student_details_screen.dart';
 import 'package:school_mgmt/screens/student_homework_screen.dart';
 import 'package:school_mgmt/screens/student_notice_screen.dart';
 import 'package:school_mgmt/screens/student_result_screen.dart';
@@ -21,14 +22,14 @@ import 'package:school_mgmt/widgets/test.dart';
 import 'package:school_mgmt/widgets/welcome_icons.dart';
 import 'package:school_mgmt/widgets/home_design.dart';
 
-class WelcomeScreen extends ConsumerStatefulWidget {
-  const WelcomeScreen({super.key});
+class HomeScreen extends ConsumerStatefulWidget {
+  const HomeScreen({super.key});
 
   @override
-  ConsumerState<WelcomeScreen> createState() => _WelcomeScreenState();
+  ConsumerState<HomeScreen> createState() => _HomeScreenState();
 }
 
-class _WelcomeScreenState extends ConsumerState<WelcomeScreen> {
+class _HomeScreenState extends ConsumerState<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     final userType = ref.watch(userTypeProvider);
@@ -43,27 +44,29 @@ class _WelcomeScreenState extends ConsumerState<WelcomeScreen> {
                 padding: EdgeInsets.zero,
                 children: <Widget>[
                   DrawerHeader(
-                    decoration: BoxDecoration(
-                      color: Colors.teal,
-                    ),
-                    child: Text(
-                      'Drawer Header',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 24,
+                      decoration: BoxDecoration(
+                        color: Colors.teal,
                       ),
-                    ),
-                  ),
+                      child: Text('Drawer Header',
+                          style: Theme.of(context)
+                              .textTheme
+                              .headlineSmall
+                              ?.copyWith(color: Colors.white))),
                   ListTile(
-                    leading: Icon(Icons.message),
+                    leading: IconButton(
+                      onPressed: () {},
+                      icon: Icon(Icons.message),
+                    ),
                     title: Text('Messages'),
                   ),
                   ListTile(
-                    leading: Icon(Icons.account_circle),
+                    leading: IconButton(
+                        onPressed: () {}, icon: Icon(Icons.account_circle)),
                     title: Text('Profile'),
                   ),
                   ListTile(
-                    leading: Icon(Icons.settings),
+                    leading: IconButton(
+                        onPressed: () {}, icon: Icon(Icons.settings)),
                     title: Text('Settings'),
                   ),
                 ],
@@ -80,13 +83,15 @@ class _WelcomeScreenState extends ConsumerState<WelcomeScreen> {
                 ),
                 onTap: () async {
                   await FirebaseAuth.instance.signOut();
-                  Navigator.pushReplacement(
-                    // ignore: use_build_context_synchronously
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => SplashScreen(),
-                    ),
-                  );
+                  if (mounted) {
+                    Navigator.pushAndRemoveUntil(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => SplashScreen(),
+                      ),
+                      (route) => false,
+                    );
+                  }
                 },
               ),
             ),
@@ -170,7 +175,7 @@ class _WelcomeScreenState extends ConsumerState<WelcomeScreen> {
                             destinationScreen: ResultScreen(),
                           ),
                         //IF USER IS STUDENT
-                        if (userType == 'student')
+                        if (userType == 'student' || userType == 'parent')
                           WelcomeIcons(
                             iconPath: 'assets/icons/result.png',
                             label: 'Result',
@@ -192,11 +197,17 @@ class _WelcomeScreenState extends ConsumerState<WelcomeScreen> {
                             label: 'Notice & Events',
                             destinationScreen: TeacherNoticeScreen(),
                           ),
-                        if (userType == 'student')
+                        if (userType == 'student' || userType == 'parent')
                           WelcomeIcons(
                             iconPath: 'assets/icons/notice.png',
                             label: 'Notice & Events',
                             destinationScreen: AllNoticesScreen(),
+                          ),
+                        if (userType == 'parent' || userType == 'student')
+                          WelcomeIcons(
+                            iconPath: 'assets/icons/student_info.png',
+                            label: 'Student Details',
+                            destinationScreen: StudentDetailsScreen(),
                           )
                         // SizedBox(height: 100,)
                       ],

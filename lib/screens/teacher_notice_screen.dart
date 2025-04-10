@@ -32,7 +32,8 @@ class _TeacherNoticeScreenState extends State<TeacherNoticeScreen> {
       if (pickedFile != null) {
         setState(() => isLoading = true);
 
-        final ref = FirebaseStorage.instance.ref().child('notices/$pickedFileName');
+        final ref =
+            FirebaseStorage.instance.ref().child('notices/$pickedFileName');
         await ref.putFile(pickedFile!);
         final url = await ref.getDownloadURL();
 
@@ -101,7 +102,10 @@ class _TeacherNoticeScreenState extends State<TeacherNoticeScreen> {
             const SizedBox(width: 10),
             Text(
               "NOTICE & EVENTS",
-              style: TextStyle(color: theme.colorScheme.onPrimary),
+              style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                  color: theme.colorScheme.onPrimary,
+                  fontWeight: FontWeight.w600,
+                  letterSpacing: 1.5),
             ),
           ],
         ),

@@ -135,8 +135,11 @@ class StudentAttendanceScreenState extends State<StudentAttendanceScreen> {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          "Student Attendance",
-          style: TextStyle(color: theme.colorScheme.onPrimary),
+          "ATTENDANCE",
+          style: theme.textTheme.titleLarge?.copyWith(
+            color: theme.colorScheme.onPrimary,
+            fontWeight: FontWeight.w600,
+          ),
         ),
         backgroundColor: theme.colorScheme.primary,
         iconTheme: IconThemeData(color: theme.colorScheme.onPrimary),

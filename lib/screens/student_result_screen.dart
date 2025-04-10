@@ -27,8 +27,11 @@ class _StudentResultScreenState extends State<StudentResultScreen> {
               width: 10,
             ),
             Text(
-              "RESULT",
-              style: TextStyle(color: Theme.of(context).colorScheme.onPrimary),
+              "R E S U L T S",
+              style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                    color: Theme.of(context).colorScheme.onPrimary,
+                    fontWeight: FontWeight.w600,
+                  ),
             ),
             const SizedBox(
               height: 15,

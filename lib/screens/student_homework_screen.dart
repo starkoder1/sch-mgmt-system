@@ -27,8 +27,10 @@ class _StudentHomeworkScreenState extends State<StudentHomeworkScreen> {
               width: 10,
             ),
             Text(
-              "HOMEWORK",
-              style: TextStyle(color: Theme.of(context).colorScheme.onPrimary),
+              "H O M E W O R K",
+              style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                  color: Theme.of(context).colorScheme.onPrimary,
+                  fontWeight: FontWeight.w600),
             ),
             const SizedBox(
               height: 15,

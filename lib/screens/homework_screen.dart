@@ -21,18 +21,16 @@ class _HomeworkScreenState extends State<HomeworkScreen> {
             Image.asset(
               'assets/icons/homework.png',
               color: Colors.white,
+              height: appBarIconHeight,
             ),
             const SizedBox(
               width: 10,
             ),
-            Text(
-              "HOMEWORK",
-              style: TextStyle(
-                color: Theme.of(context).colorScheme.onPrimary,
-                fontSize: 20,
-                // fontWeight: FontWeight.bold,
-              ),
-            ),
+            Text("H O M E W O R K",
+                style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                      color: Theme.of(context).colorScheme.onPrimary,
+                      fontWeight: FontWeight.w600,
+                    )),
           ],
         ),
       ),

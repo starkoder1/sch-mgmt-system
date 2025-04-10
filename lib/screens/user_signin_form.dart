@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:recase/recase.dart';
 import 'package:school_mgmt/providers/user_type_provider.dart';
-import 'package:school_mgmt/screens/welcome_screen.dart';
+import 'package:school_mgmt/screens/home_screen.dart';
 import 'package:school_mgmt/services/auth.dart';
 import 'package:school_mgmt/utils/utils.dart';
 import 'package:school_mgmt/widgets/elevated_btn.dart';
@@ -23,6 +23,7 @@ class _UserLoginFormState extends ConsumerState<UserLoginForm> {
   String userEmail = '';
   String userPass = '';
   late String currentUserType = widget.userType;
+  bool _isAuthenticating = false;
 
   bool isPasswordVisible = true;
 
@@ -34,7 +35,10 @@ class _UserLoginFormState extends ConsumerState<UserLoginForm> {
   }
 
   //Handle validation and authentication
-  void onLoginPress() async {
+  void _onLoginPress() async {
+    setState(() {
+      _isAuthenticating = true;
+    });
     if (_formKey.currentState!.validate()) {
       _formKey.currentState!.save();
 
@@ -45,19 +49,26 @@ class _UserLoginFormState extends ConsumerState<UserLoginForm> {
             content: Text(_authService.errrMsg!),
             behavior: SnackBarBehavior.floating,
           ));
+          setState(() {
+            _isAuthenticating = false;
+          });
         }
       } else {
         //saving offline usertype for UI
         await ref.read(userTypeProvider.notifier).setUserType(currentUserType);
-        Navigator.of(context).pushReplacement(
-          MaterialPageRoute(
-            builder: (context) => const WelcomeScreen(),
-          ),
-        );
+        setState(() {
+          _isAuthenticating = false;
+        });
+        if (mounted) {
+          Navigator.of(context).pushReplacement(MaterialPageRoute(
+            builder: (context) => const HomeScreen(),
+          ));
+        }
+
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
             behavior: SnackBarBehavior.floating,
-            content: Text("Signed in successfulyy!"),
+            content: Text("Sign in successfull"),
           ),
         );
       }
@@ -155,7 +166,11 @@ class _UserLoginFormState extends ConsumerState<UserLoginForm> {
             const SizedBox(
               height: 80,
             ),
-            ElevatedBtn(content: "Login", onPressed: onLoginPress),
+            ElevatedBtn(
+              content: "Login",
+              onPressed: _onLoginPress,
+              isLoading: _isAuthenticating,
+            ),
           ],
         ),
       ),

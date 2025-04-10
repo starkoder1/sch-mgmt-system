@@ -34,11 +34,11 @@ class _AddAccountDetailsScreenState extends State<AddAccountDetailsScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       bottomNavigationBar: BottomAppBar(
-        height: 80,
+        height: 60,
         color: Theme.of(context).primaryColor,
         child: Text(
           "TEACHER DETAILS",
-          style: Theme.of(context).textTheme.headlineMedium,
+          style: Theme.of(context).appBarTheme.titleTextStyle,
           textAlign: TextAlign.center,
         ),
       ),

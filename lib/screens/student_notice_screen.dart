@@ -21,7 +21,7 @@ class AllNoticesScreen extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('All Notices'),
+        title: const Text('A N N O U N C E M E N T S'),
         backgroundColor: colors.primary,
         foregroundColor: colors.onPrimary,
         elevation: 2,
